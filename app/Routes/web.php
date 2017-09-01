@@ -4,8 +4,8 @@ Route::auth();
 Route::group(['middleware' => 'web'], function() {
 	Route::get('redirect', 'SocialAuthController@redirect');
 	Route::get('callback', 'SocialAuthController@callback');
-	Route::get('/registration', 'Auth\AuthController@registration');
-	Route::get('/create', 'Auth\AuthController@store');
+	Route::get('registration', 'Auth\AuthController@registration');
+	Route::post('create', 'Auth\AuthController@store');
 });
 
 
@@ -13,15 +13,14 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('/', 'HomeController@index');
 
 	Route::group(['middleware' => ['role:user']], function() {
-		Route::get('/articole '		    	, 'ArticolsController@articole');
+		Route::get('/ware '		    	, 'WareController@ware');
 
 	});
-
 	
 	Route::group(['middleware' => ['role:admin']], function() {
-	
-		Route::post('/users/datatable'		    	, 'UserController@datatable');
-		Route::resource('/users'			    	, 'UserController', ['except' => ['show']]);
+
+		Route::post('/users/datatable'	, 'UserController@datatable');
+		Route::resource('/users'		, 'UserController', ['except' => ['show']]);
 
 	});
 

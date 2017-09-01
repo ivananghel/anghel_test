@@ -15,7 +15,7 @@ use League\Fractal\Manager;
 use League\Fractal\Resource\Item;
 use League\Fractal\Serializer\ArraySerializer;
 use Tymon\JWTAuth\Facades\JWTAuth;
-
+use Hash;
 class AuthController extends Controller {
 
     use Helpers;
@@ -28,25 +28,21 @@ class AuthController extends Controller {
      * @param Request $request
      * @return array
      */
-    public function login(Request $request){
+ public function login(Request $request){
         // Validation
         $this->validate($request, [
-            'email'		=> 'required|string|exists:users,email',
-			
+            'email'         => 'required|string|exists:users,email',
+            'password'      => 'required|string',
         ]);
-       
-		$user = User::where('email',$request->email)->firstOrFail();
-        // Authentication
 
-        if(!$user){
-            abort(401, 'NOT found user');
-        }
-        $token	= JWTAuth::fromUser($user);
-	
-		return [
+        // Authentication
+        $token  = JWT::login($request->email, $request->password);
+
+        return [
             'data' => ['token' => $token],
         ];
 
     }
+
 
 }

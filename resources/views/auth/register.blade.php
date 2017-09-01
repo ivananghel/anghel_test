@@ -54,6 +54,9 @@
                         </section>
                     </fieldset>
                     <footer>
+                     <a href="{{url('login')}}" class="btn btn-primary pull-left">
+                            {{trans('lang.back')}}   
+                        </a>
                         <button type="submit" class="btn btn-primary">
                             {{trans('lang.add')}}   
                         </button>

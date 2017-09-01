@@ -9,5 +9,7 @@ $api->version('v1', ['namespace' => 'App\Api\V1\Controllers'], function($api){
 
 	$api->group(['middleware' => ['jwt.auth']], function($api){
 
+		$api->post('ware'	, 'WareController@ware');
+
 	});
 });

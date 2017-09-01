@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateArticolsTable extends Migration
+class CreateWareTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,13 +12,10 @@ class CreateArticolsTable extends Migration
      */
     public function up()
     {
-           Schema::create('articols', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
+           Schema::create('ware', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('articol');
-            $table->string('like');
-            $table->string('unlike');
+            $table->string('article');
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ class CreateArticolsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('articols');
+        Schema::dropIfExists('ware');
     }
 }

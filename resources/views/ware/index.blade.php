@@ -1,7 +1,7 @@
-@extends('articole.master')
+@extends('ware.master')
 @section('content')
 <div id="content">
-  @foreach ($articol as $item)
+  @foreach ($ware as $item)
   <!-- row -->
   <div class="row">
     <div class="col-sm-12 col-lg-12">
@@ -11,16 +11,16 @@
                     <span class="name"><b>{{$item->name}}</b></span>
                 </div>
                 <div class="text">
-                   {{$item->articol}}
+                   {{$item->article}}
                </div>
                <ul class="links">
                 <li>
                     <a href="javascript:void(0);"><i class="fa fa-thumbs-o-up"></i> Like</a>
-                    <span class="badge"> {{(empty($item->like) ? 0 : $item->like)}}</span>
+                    <span class="badge"> 0</span>
                 </li>
                 <li>
                     <a href="javascript:void(0);"><i class="fa fa-thumbs-o-down"></i> Unlike</a>
-                     <span class="badge">  {{(empty($item->unlike) ? 0 : $item->unlike)}}</span>
+                     <span class="badge">  0</span>
                 </li>
             </ul>
         </div>

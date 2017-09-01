@@ -13,6 +13,11 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use DB;
+use Hash;
+use Datatables;
+
+
 
 class AuthController extends Controller
 {
@@ -46,43 +51,14 @@ class AuthController extends Controller
         $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
     }
 
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data){
-        return Validator::make($data, [
-			'first_name' => 'required|max:255',
-			'last_name'  => 'required|max:255',
-			'email'      => 'required|email|max:255|unique:users',
-			'password'   => 'required|min:6|confirmed',
-        ]);
-    }
-
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return User
-     */
-    protected function create(array $data) {
-
-        return User::create([
-			'first_name' => $data['first_name'],
-			'last_name'  => $data['last_name'],
-			'email'      => $data['email'],
-			'password'   => bcrypt($data['password']),
-        ]);
-    }
 
     public function registration(){
         return view('auth.register');
     }
 
 
-    protected function store(Request $request){
+    public function store(Request $request){
+
         $input = $request->all();
         $rules = config('validations.web.user.create');
         $this->validate($request, $rules);
@@ -92,37 +68,33 @@ class AuthController extends Controller
             $input['password'] = \Illuminate\Support\Facades\Hash::make($input['password']);
             $user = User::create($input);
             $user->status = User::USER_STATUS_ACTIVE;
+            $user->attachRole(2);
             $user->save();
 
         });
 
-        return response()->view('message.success', array('message' => trans('User has been successfully created') ));
+        return response()->view('message.success', array('message' => trans('User has been successfully created'),'redirect'=>'login' ));
+    
+
+
     }
 
-	
 	public function login(Request $request){
 
         try {
-            // Receive request data
+
             $data = $request->only('email', 'password');
 
-            // Authenticate
             if(!Auth::attempt($data, $request->has('remember'))){
                 throw new AuthenticationException('Incorrect password or Email. Please, try again.');
             }
 
-            // Check for permissions
             $user = Auth::user();
-
-//            if ( $user->hasRole('admin') ) {
                 return view('message.success', [
                     'message' => trans('Going to dashboard'),
                     'redirect' => '/'
                 ]);
-//            }
 
-//            Auth::logout();
-//            throw new PermissionException('You don\'t have enough permissions to sign into dashboard');
         }
 
         catch(AuthenticationException $e){

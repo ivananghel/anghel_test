@@ -30,14 +30,11 @@ class HomeController extends Controller
 					'active_menu' => 'users',
 				]);
 			}
-			if(Auth::user()->hasRole('users')){
+			if(Auth::user()->hasRole('user')){
 
-				return view('page');
+				return redirect('ware');
 			}
 			
-			return view('home',array(
-				'active_menu'	=> 'dashboard',
-			));
 		}else{
 			return view('auth.login') ;
 		}

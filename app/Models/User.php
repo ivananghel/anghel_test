@@ -24,8 +24,10 @@ class User extends Authenticatable {
 		'facebook_id',
 		'first_name',
 		'last_name',
+		'password',
 		'phone',
 		'email',
+		'status',
 		'remember_token',
 	];
 

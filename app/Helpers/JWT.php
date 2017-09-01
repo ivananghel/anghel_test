@@ -31,9 +31,11 @@ final class JWT extends Helper {
      * @param string $password
      * @return string
      */
-    public static function login($username){
+    public static function login($email, $password){
         $token = JWTAuth::attempt([
-            'username'	=> $username
+            'email'     => $email,
+            'password'  => $password,
+            'status'    => User::USER_STATUS_ACTIVE,
         ]);
 
         if(false === $token){
@@ -41,6 +43,25 @@ final class JWT extends Helper {
         }
 
         $user = Auth::user();
+
+        if($user->hasRole('user') ||  $user->hasRole('admin')){
+            $data = [
+                'user_id' => $user->id,
+                'full_name' => $user->first_name.' '.$user->last_name,
+            ];
+
+            $token = JWTAuth::attempt([
+                'email'     => $email,
+                'password'  => $password,
+                'status'    => User::USER_STATUS_ACTIVE,
+            ], $data);
+
+            if(false === $token){
+                abort(401, 'Invalid Credentials');
+            }
+
+            return $token;
+        }
 
         return $token;
     }
