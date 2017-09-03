@@ -6,10 +6,12 @@ $api = app(\Dingo\Api\Routing\Router::class);
 $api->version('v1', ['namespace' => 'App\Api\V1\Controllers'], function($api){
 
 	$api->post('auth/login'					, 'AuthController@login');
+	$api->post('auth/loginfacebook'			, 'AuthController@loginfacebook');
 
 	$api->group(['middleware' => ['jwt.auth']], function($api){
 
-		$api->post('ware'	, 'WareController@ware');
+		$api->get('post'	, 'PostController@post');
+		$api->post('islike'	, 'PostController@islike');
 
 	});
 });

@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use Socialite;
 use App\Models\User;
 use App\Models\Role;
-use Auth;
+use App\Like;
 
 class SocialAuthController extends Controller
 {
@@ -20,7 +20,6 @@ class SocialAuthController extends Controller
 	{
 		try {
 			$Socialuser = Socialite::driver('facebook')->user();
-
 		} catch (Exception $e) {
 			return redirect('/');
 		}
@@ -39,6 +38,6 @@ class SocialAuthController extends Controller
 			$user->save();
 		}
 		auth()->login($user);
-		return redirect('ware');
+		return redirect('post');
 	}
 }

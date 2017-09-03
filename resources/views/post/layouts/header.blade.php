@@ -1,12 +1,23 @@
+<?php
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+?>
 <!DOCTYPE html>
-<html lang="en-us">
-<head>
-    <meta charset="utf-8">
-    <title> SmartAdmin </title>
-    <meta name="description" content="">
-    <meta name="author" content="">
+<html lang="en-us" class="smart-style-1">
+    <head>
+        <meta charset="UTF-8">
+        <!--<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">-->
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <title> {{ config('project.name' , '') }} </title>
+        <base href="<?php echo url('/'); ?>" />
+        <meta name="description" content="">
+        <meta name="author" content="">
+      <meta name="csrf-token" content="{{ csrf_token() }}">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
     <!-- #CSS Links -->
     <!-- Basic Styles -->
@@ -46,7 +57,7 @@
     <!-- #HEADER -->
     <header id="header">
         <div id="logo-group">
-            <span id="logo"> @if(Auth::user())  Hi , {{ Auth::user()->first_name }}   @endif </span>
+            <span id="logo" style="color:#fff"> @if(Auth::user())  Hi , {{ Auth::user()->first_name }}   @endif </span>
         </div>
         <div class="pull-right">
             <div id="logout" class="btn-header transparent pull-right">

@@ -32,10 +32,11 @@ class HomeController extends Controller
 			}
 			if(Auth::user()->hasRole('user')){
 
-				return redirect('ware');
+				return redirect('post');
 			}
 			
 		}else{
+            
 			return view('auth.login') ;
 		}
     }

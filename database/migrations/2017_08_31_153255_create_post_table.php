@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateWareTable extends Migration
+class CreatePostTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,10 +12,10 @@ class CreateWareTable extends Migration
      */
     public function up()
     {
-           Schema::create('ware', function (Blueprint $table) {
+           Schema::create('post', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('article');
+            $table->string('body');
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ class CreateWareTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ware');
+        Schema::dropIfExists('post');
     }
 }

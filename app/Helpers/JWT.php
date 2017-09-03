@@ -66,13 +66,30 @@ final class JWT extends Helper {
         return $token;
     }
 
+        /**
+     * @param string $email
+     * @param string $password
+     * @return string
+     */
+    public static function loginfacebook($user){
+
+        $token = JWTAuth::fromUser($user);
+
+        if(!$token){
+            throw new AuthenticationException('Invalid Credentials');
+        }
+
+        return $token;
+    }
+
+
     /**
      * @param string $token
      * @return string
      * @throws AuthenticationException
      * @throws PermissionException
      */
-    public static function loginWithFacebook($token){
+/*    public static function loginWithFacebook($token){
 
         $fb = app(LaravelFacebookSdk::class);
         $response = $fb->get('/me?fields=id,name,email', $token);
@@ -93,14 +110,14 @@ final class JWT extends Helper {
         Auth::setUser($user);
 
         return $token;
-    }
+    }*/
 
 	/**
 	 * @param string $token
 	 * @return array
 	 * @throws AuthenticationException
 	 */
-    public static function registerWithFacebook($token){
+/*    public static function registerWithFacebook($token){
 
         $fb 		= app(LaravelFacebookSdk::class);
         $response 	= $fb->get('/me?fields=id,first_name,last_name,email,birthday', $token);
@@ -154,7 +171,7 @@ final class JWT extends Helper {
 
 		return $token;
 
-    }
+    }*/
 
     /**
      * @return User|null

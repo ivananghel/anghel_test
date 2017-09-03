@@ -12,17 +12,12 @@ class CreateLikeTable extends Migration
      */
     public function up()
     {
-          Schema::create('like', function (Blueprint $table) {
+         Schema::create('likes', function (Blueprint $table) {
             $table->increments('id');
+            $table->timestamps();
             $table->integer('user_id');
-            $table->integer('ware_id');
-            $table->foreign('ware_id')
-            ->references('id')
-            ->on('ware')
-            ->onUpdate('cascade')
-            ->onDelete('cascade');
-            $table->string('like');
-            
+            $table->integer('post_id');
+            $table->boolean('like');
         });
     }
 
@@ -33,6 +28,6 @@ class CreateLikeTable extends Migration
      */
     public function down()
     {
-         Schema::dropIfExists('like');
+         Schema::dropIfExists('likes');
     }
 }
