@@ -27,7 +27,6 @@ class PostController extends Controller {
 
     public function islike(Request $request)
     {
-    	dd('aa');
     	$input = $request->all();
     	$post_id = $input['postID'];
 		$is_like = $input['isLike'];
@@ -44,6 +43,10 @@ class PostController extends Controller {
 
 		if ($like) {
 			$update = true;
+			if ($like->like == $is_like) {
+				$like->delete();
+				abort(200, 'Delete '. ($input['isLike'] == 1 ? 'Like' : 'Dislike') );
+			}
 		} else {
 			$like = new Like();
 		}
@@ -51,9 +54,8 @@ class PostController extends Controller {
 		$like->like = $is_like;
 		$like->user_id = $user->id;
 		$like->post_id = $post->id;
-		$update ? $like->update() : $like->save() ; 
-
-		abort(200, 'Save');
+		$update ? $like->update() : $like->save() ;
+		abort(200, 'Save ' . ($input['isLike'] == 1 ? 'Like' : 'Dislike'));
 
     }
     

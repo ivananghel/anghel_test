@@ -17,7 +17,8 @@ class PostController extends Controller
 
 			$value->countlike = Like::where(['like' => '1','post_id' => $value->id])->get()->count();
 			$value->countdislike = Like::where(['like' => '0','post_id' => $value->id])->get()->count();
-
+			$value ->btnlike = (Auth::user()->likes()->where('post_id', $value->id)->first() && Auth::user()->likes()->where('post_id', $value->id)->first()->like == 1 ? 'You like this post'  : 'Like');  
+			$value->btnunlike = (Auth::user()->likes()->where('post_id', $value->id)->first() && Auth::user()->likes()->where('post_id', $value->id)->first()->like == 0 ? 'You don\'t like this post' : 'Dislike');
 		}
 		return view('post.index', ['post' => $posts]);
 	}
@@ -28,6 +29,7 @@ class PostController extends Controller
 		$post_id = $request['postId'];
 		$is_like = $request['isLike'];
 		$update = false;
+		$delete = true;
 		$post = Post::find($post_id);
 		if (!$post) {
 			return null;
@@ -37,10 +39,20 @@ class PostController extends Controller
 
 		if ($like) {
 			$update = true;
+			if ($like->like == $is_like) {
+				$like->delete();
+				$countlike = Like::where(['like' => 1,'post_id' => $post_id])->get()->count();
+				$countdislike = Like::where(['like' => 0,'post_id' => $post_id])->get()->count();
+				$btnlike = (Auth::user()->likes()->where('post_id', $post_id)->first() && Auth::user()->likes()->where('post_id', $post_id)->first()->like == 1 ? 'You like this post'  : 'Like');  
+				$btnunlike = (Auth::user()->likes()->where('post_id', $post_id)->first() && Auth::user()->likes()->where('post_id', $post_id)->first()->like == 0 ? 'You don\'t like this post' : 'Dislike');
+				echo json_encode(['countlike'=> $countlike,'countdislike'=> $countdislike,'btnlike'=>$btnlike , 'btnunlike'=>$btnunlike]);
+				return ;
+			}
 		} else {
-			$like = new Like();
-		}
 
+			$like = new Like();
+			
+		}
 		$like->like = $is_like;
 		$like->user_id = $user->id;
 		$like->post_id = $post->id;
@@ -48,7 +60,9 @@ class PostController extends Controller
 
 		$countlike = Like::where(['like' => 1,'post_id' => $post_id])->get()->count();
 		$countdislike = Like::where(['like' => 0,'post_id' => $post_id])->get()->count();
+		$btnlike = (Auth::user()->likes()->where('post_id', $post_id)->first() && Auth::user()->likes()->where('post_id', $post_id)->first()->like == 1 ? 'You like this post'  : 'Like');  
+		$btnunlike = (Auth::user()->likes()->where('post_id', $post_id)->first() && Auth::user()->likes()->where('post_id', $post_id)->first()->like == 0 ? 'You don\'t like this post' : 'Dislike');
 
-		echo json_encode(['countlike'=> $countlike,'countdislike'=> $countdislike]);
+		echo json_encode(['countlike'=> $countlike,'countdislike'=> $countdislike,'btnlike'=>$btnlike , 'btnunlike'=>$btnunlike]);
 	}
 }
