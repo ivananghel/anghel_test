@@ -57,7 +57,7 @@
     <!-- #HEADER -->
     <header id="header">
         <div id="logo-group">
-            <span id="logo" style="color:#fff"> @if(Auth::user())  Hi , {{ Auth::user()->first_name }}   @endif </span>
+            <span id="logo" style="color:#fff"> @if(Auth::user())  Hi , {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}   @endif </span>
         </div>
         <div class="pull-right">
             <div id="logout" class="btn-header transparent pull-right">

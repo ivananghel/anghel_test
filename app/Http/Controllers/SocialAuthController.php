@@ -29,8 +29,8 @@ class SocialAuthController extends Controller
 			$user = User::create([
 				'facebook_id'	=> $Socialuser->id,
 				'email'			=> $Socialuser->email,
-				'first_name'	=> $Socialuser->name,
-				'last_name'		=> $Socialuser->name,
+				'first_name'	=> explode(" ", $Socialuser->name)[0],
+				'last_name'		=> explode(" ", $Socialuser->name)[1],
 				'status'		=> User::USER_STATUS_ACTIVE,
 				]);
 
