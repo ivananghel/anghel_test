@@ -34,6 +34,7 @@ return [
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
     ],
+    // test
     'facebook' => [
     'client_id' => '1947796685475464',
     'client_secret' => 'ad0b8726d8e1f97597638e55f3abf1c0',

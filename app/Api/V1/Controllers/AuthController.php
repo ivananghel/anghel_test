@@ -46,9 +46,9 @@ class AuthController extends Controller {
 
 	public function loginfacebook(Request $request){
 
-		$user = Socialite::driver('facebook')->userFromToken($request->token);
+		$data = Socialite::driver('facebook')->userFromToken($request->token);
 
-		$user1 = User::where(['email'=> $user->email,'facebook_id'=>$user->id,'status'=>User::USER_STATUS_ACTIVE])->first();
+		$user = User::where(['email'=> $data->email,'facebook_id'=>$data->id,'status'=>User::USER_STATUS_ACTIVE])->first();
 
         if(!$user1){
            abort(404 ,'Not Font User');
@@ -56,7 +56,6 @@ class AuthController extends Controller {
 
         $token  = JWT::loginfacebook($user);
         
-
         return [
             'data' => ['token' => $token],
         ];
