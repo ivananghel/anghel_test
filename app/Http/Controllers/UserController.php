@@ -62,6 +62,7 @@ class UserController extends Controller {
 			$input['password'] = \Illuminate\Support\Facades\Hash::make($input['password']);
 			$user = User::create($input);
 			$user->status = User::USER_STATUS_ACTIVE;
+            $user->attachRole(2);
 			$user->save();
 
 		});
